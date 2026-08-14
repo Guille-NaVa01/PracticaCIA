@@ -29,6 +29,7 @@ python -m uvicorn chat_server:app --reload --port 8001
 
 - En terminal 3 (frontend) ejecutar:
 cd frontend
+
 npm run dev
 
 # Final
