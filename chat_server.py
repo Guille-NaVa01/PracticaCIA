@@ -134,9 +134,11 @@ def send_message(payload: SendMessageRequest):
     # ========================================================
     # 2. FIRMAR EL MENSAJE
     # ========================================================
+    # Se envía el mensaje a la CIA API para generar
+    # una firma HMAC-SHA256 que permitirá comprobar
+    # posteriormente que el mensaje no fue alterado.
     #
     # POST /integrity/sign
-    #
 
     sign_response = requests.post(
         f"{CIA_API_URL}/integrity/sign",
@@ -160,6 +162,15 @@ def send_message(payload: SendMessageRequest):
     # ========================================================
     # 3. GUARDAR EN POSTGRESQL
     # ========================================================
+    # Se almacena el mensaje CIFRADO y su FIRMA.
+    # El texto plano NO se guarda en la base de datos.
+    #
+    # PostgreSQL almacena:
+    # - remitente
+    # - destinatario
+    # - ciphertext
+    # - signature
+    # - timestamp
 
     db: Session = SessionLocal()
 
@@ -272,10 +283,6 @@ def get_messages():
 
             else:
 
-                print("ERROR CIA API:") ###
-                print("Status:", decrypt_response.status_code) ###
-                print("Respuesta:", decrypt_response.text) ##borra
-
                 plaintext = "[ERROR: No se pudo descifrar]"
 
 
@@ -286,18 +293,15 @@ def get_messages():
             verification_status = "No verificado"
 
 
-            # =================================================
-            # 6. VERIFICAR INTEGRIDAD
-            # =================================================
-            #
-            # Mandamos:
-            #
-            # mensaje original
-            # +
-            # firma almacenada
-            #
+            # ========================================================
+            # 4. VERIFICAR INTEGRIDAD
+            # ========================================================
+            # Se envían el mensaje descifrado y la firma almacenada
             # a la CIA API.
             #
+            # La CIA API comprueba si la firma corresponde al mensaje.
+            #
+            # POST /integrity/verify
 
             verify_response = requests.post(
 
