@@ -1,4 +1,4 @@
-# Librerias que debes tener isntaladas
+# Librerias que debes tener instalados
 
 pip install fastapi "uvicorn[standard]" sqlalchemy psycopg2-binary httpx cryptography python-dotenv
 
