@@ -15,6 +15,10 @@ CREATE TABLE messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+# En database.py
+- Cambia la variable "TU_PASSWORD" por la contraseña de tu base de datos postgres sql
+TU_PASSWORD = "tu_password_de_postgres"
+
 
 # Abrir 3 terminales
 - En terminal 1 (de cia_api.py) ejecutar:
