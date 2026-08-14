@@ -27,7 +27,7 @@ python -m uvicorn cia_api:app --reload --port 8000
 - En terminal 2 (de chat_server.py) ejecutar:
 python -m uvicorn chat_server:app --reload --port 8001
 
-- En terminal 3 (frintend) ejecutar:
+- En terminal 3 (frontend) ejecutar:
 cd frontend
 npm run dev
 
